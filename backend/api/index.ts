@@ -34,5 +34,9 @@ app.get('/api', (req: express.Request, res: express.Response) => {
   res.json({ message: 'API running with MongoDB on Vercel' });
 });
 
+app.get('/', (req: express.Request, res: express.Response) => {
+  res.json({ message: 'Authentication System API - Backend is running!', status: 'success' });
+});
+
 // Export the Express API
 export default app;
