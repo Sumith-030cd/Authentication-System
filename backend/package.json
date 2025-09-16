@@ -6,7 +6,6 @@
     "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
     "build": "tsc",
     "start:prod": "node dist/index.js",
-    "vercel-build": "tsc",
     "test": "jest"
   },
   "dependencies": {
