@@ -1,7 +1,7 @@
 // tsconfig for backend
 {
   "compilerOptions": {
-    "target": "ES2021",
+    "target": "es6",
     "module": "commonjs",
     "outDir": "dist",
     "strict": true,
@@ -10,6 +10,6 @@
     "forceConsistentCasingInFileNames": true,
     "types": ["node", "jest"]
   },
-  "include": ["src", "api", "tests", "index.ts"],
+  "include": ["src", "tests"],
   "exclude": ["node_modules", "dist"]
 }

@@ -27,14 +27,30 @@ app.use(rateLimit({
   max: 100,
 }));
 
-app.use('/auth', authRoutes);
-app.use('/profile', profileRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/profile', profileRoutes);
 
 app.get('/', (req: express.Request, res: express.Response) => {
-  res.json({ message: 'API running with MongoDB' });
+  res.json({ 
+    message: 'Authentication System API - Backend is running!',
+    status: 'success',
+    endpoints: {
+      auth: '/api/auth',
+      profile: '/api/profile'
+    }
+  });
 });
 
-const PORT = process.env.PORT || 4000;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+app.get('/api', (req: express.Request, res: express.Response) => {
+  res.json({ message: 'API running with MongoDB on Vercel' });
 });
+
+// Export the app for Vercel
+module.exports = app;
+
+const PORT = process.env.PORT || 4000;
+if (process.env.NODE_ENV !== 'production') {
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
+}
