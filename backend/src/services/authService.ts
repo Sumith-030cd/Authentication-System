@@ -47,21 +47,13 @@ export async function register(req: Request, res: Response) {
 export async function login(req: Request, res: Response) {
   try {
     const { email, password } = sanitizeInput(req.body);
-    console.log('Login attempt for email:', email);
-    
     const user = await User.findOne({ email });
-    console.log('User found:', user ? 'Yes' : 'No');
     if (!user) return res.status(401).json({ message: 'Invalid email or password' });
-    
-    console.log('User verified status:', user.isVerified);
     if (!user.isVerified) return res.status(403).json({ message: 'Email not verified' });
     
-    console.log('Comparing password...');
     const valid = await bcrypt.compare(password, user.passwordHash);
-    console.log('Password valid:', valid);
     if (!valid) return res.status(401).json({ message: 'Invalid email or password' });
     
-    console.log('Creating JWT tokens...');
     const accessToken = jwt.sign({ id: user._id.toString(), role: user.role }, process.env.JWT_SECRET!, { expiresIn: '15m' });
     const refreshToken = jwt.sign({ id: user._id.toString() }, process.env.JWT_REFRESH_SECRET!, { expiresIn: '7d' });
     

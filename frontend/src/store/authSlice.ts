@@ -48,7 +48,7 @@ export const getProfile = createAsyncThunk(
   'auth/getProfile',
   async (_, { rejectWithValue }) => {
     try {
-      const response = await api.get('/profile');
+      const response = await api.get('/api/profile');
       return response.data;
     } catch (error: any) {
       return rejectWithValue(error.response?.data?.message || 'Failed to get profile');
