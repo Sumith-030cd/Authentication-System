@@ -15,25 +15,16 @@ api.interceptors.request.use(
   }
 );
 
-// Response interceptor for token refresh
+// Response interceptor - simplified for now
 api.interceptors.response.use(
   (response) => {
     return response;
   },
   async (error) => {
-    const originalRequest = error.config;
-    
-    if (error.response?.status === 401 && !originalRequest._retry) {
-      originalRequest._retry = true;
-      
-      try {
-        await api.post('/api/auth/refresh');
-        return api(originalRequest);
-      } catch (refreshError) {
-        // Refresh failed, redirect to login
-        window.location.href = '/login';
-        return Promise.reject(refreshError);
-      }
+    // For now, just redirect to login on 401 without refresh attempts
+    if (error.response?.status === 401) {
+      console.log('Unauthorized access, redirecting to login');
+      window.location.href = '/login';
     }
     
     return Promise.reject(error);
