@@ -1,11 +1,12 @@
 {
   "name": "auth-backend",
   "version": "1.0.0",
-  "main": "dist/index.js",
+  "main": "api/index.ts",
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
     "build": "tsc",
     "start:prod": "node dist/index.js",
+    "vercel-build": "tsc",
     "test": "jest"
   },
   "dependencies": {
