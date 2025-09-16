@@ -24,7 +24,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(rateLimit({
   windowMs: 15 * 60 * 1000,
-  max: 100,
+  max: 500, // Increased from 100 for testing
 }));
 
 app.use('/api/auth', authRoutes);
