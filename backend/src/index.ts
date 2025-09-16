@@ -17,7 +17,7 @@ connectDB();
 
 app.use(helmet());
 app.use(cors({
-  origin: process.env.CLIENT_URL,
+  origin: true, // Allow all origins for testing - CHANGE THIS IN PRODUCTION
   credentials: true,
 }));
 app.use(express.json());
