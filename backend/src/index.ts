@@ -45,6 +45,24 @@ app.get('/api', (req: express.Request, res: express.Response) => {
   res.json({ message: 'API running with MongoDB on Vercel' });
 });
 
+app.get('/api/debug/db', async (req: express.Request, res: express.Response) => {
+  try {
+    const { User } = await import('./models/User');
+    const userCount = await User.countDocuments();
+    const users = await User.find({}, { name: 1, email: 1, isVerified: 1, createdAt: 1 });
+    res.json({ 
+      message: 'Database connection working',
+      userCount,
+      users: users.slice(0, 5) // Show first 5 users for safety
+    });
+  } catch (error: any) {
+    res.status(500).json({ 
+      message: 'Database connection failed', 
+      error: error.message 
+    });
+  }
+});
+
 // Export the app for Vercel
 export default app;
 
