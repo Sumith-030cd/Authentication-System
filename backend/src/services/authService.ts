@@ -57,8 +57,18 @@ export async function login(req: Request, res: Response) {
     const accessToken = jwt.sign({ id: user._id.toString(), role: user.role }, process.env.JWT_SECRET!, { expiresIn: '15m' });
     const refreshToken = jwt.sign({ id: user._id.toString() }, process.env.JWT_REFRESH_SECRET!, { expiresIn: '7d' });
     
-    res.cookie('accessToken', accessToken, { httpOnly: true, sameSite: 'lax', secure: false });
-    res.cookie('refreshToken', refreshToken, { httpOnly: true, sameSite: 'lax', secure: false });
+    res.cookie('accessToken', accessToken, { 
+      httpOnly: true, 
+      sameSite: 'none', 
+      secure: true,
+      domain: '.vercel.app' 
+    });
+    res.cookie('refreshToken', refreshToken, { 
+      httpOnly: true, 
+      sameSite: 'none', 
+      secure: true,
+      domain: '.vercel.app' 
+    });
     return res.json({ message: 'Logged in' });
   } catch (e: any) {
     return res.status(400).json({ message: e.message });
@@ -66,8 +76,8 @@ export async function login(req: Request, res: Response) {
 }
 
 export async function logout(req: Request, res: Response) {
-  res.clearCookie('accessToken');
-  res.clearCookie('refreshToken');
+  res.clearCookie('accessToken', { domain: '.vercel.app' });
+  res.clearCookie('refreshToken', { domain: '.vercel.app' });
   return res.json({ message: 'Logged out' });
 }
 
@@ -81,7 +91,12 @@ export async function refresh(req: Request, res: Response) {
     if (!user) return res.status(401).json({ message: 'Invalid refresh token' });
     
     const accessToken = jwt.sign({ id: user._id.toString(), role: user.role }, process.env.JWT_SECRET!, { expiresIn: '15m' });
-    res.cookie('accessToken', accessToken, { httpOnly: true, sameSite: 'lax', secure: false });
+    res.cookie('accessToken', accessToken, { 
+      httpOnly: true, 
+      sameSite: 'none', 
+      secure: true,
+      domain: '.vercel.app' 
+    });
     return res.json({ message: 'Token refreshed' });
   } catch {
     return res.status(401).json({ message: 'Invalid refresh token' });
