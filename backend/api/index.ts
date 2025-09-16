@@ -17,7 +17,7 @@ connectDB();
 
 app.use(helmet());
 app.use(cors({
-  origin: process.env.CLIENT_URL,
+  origin: process.env.CLIENT_URL || '*',
   credentials: true,
 }));
 app.use(express.json());
@@ -35,8 +35,16 @@ app.get('/api', (req: express.Request, res: express.Response) => {
 });
 
 app.get('/', (req: express.Request, res: express.Response) => {
-  res.json({ message: 'Authentication System API - Backend is running!', status: 'success' });
+  res.json({ 
+    message: 'Authentication System API - Backend is running!', 
+    status: 'success',
+    endpoints: {
+      auth: '/api/auth',
+      profile: '/api/profile'
+    }
+  });
 });
 
-// Export the Express API
+// Export for Vercel serverless functions
+module.exports = app;
 export default app;
