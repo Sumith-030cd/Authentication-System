@@ -46,7 +46,7 @@ app.get('/api', (req: express.Request, res: express.Response) => {
 });
 
 // Export the app for Vercel
-module.exports = app;
+export default app;
 
 const PORT = process.env.PORT || 4000;
 if (process.env.NODE_ENV !== 'production') {
