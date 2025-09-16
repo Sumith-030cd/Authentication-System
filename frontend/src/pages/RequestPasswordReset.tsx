@@ -14,7 +14,7 @@ const RequestPasswordReset: React.FC = () => {
     setMessage('');
 
     try {
-      const response = await api.post('/auth/request-password-reset', { email });
+      const response = await api.post('/api/auth/request-password-reset', { email });
       setMessage(response.data.message);
       setIsSuccess(true);
     } catch (error: any) {

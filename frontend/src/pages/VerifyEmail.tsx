@@ -10,7 +10,7 @@ const VerifyEmail: React.FC = () => {
   useEffect(() => {
     const verifyEmail = async () => {
       try {
-        const response = await api.get(`/auth/verify-email/${token}`);
+        const response = await api.get(`/api/auth/verify-email/${token}`);
         setStatus('success');
         setMessage(response.data.message);
       } catch (error: any) {

@@ -29,7 +29,7 @@ const ResetPassword: React.FC = () => {
     setIsLoading(true);
 
     try {
-      await api.post(`/auth/reset-password/${token}`, {
+      await api.post(`/api/auth/reset-password/${token}`, {
         password: formData.password,
       });
       
