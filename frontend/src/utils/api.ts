@@ -15,16 +15,23 @@ api.interceptors.request.use(
   }
 );
 
-// Response interceptor - simplified for now
+// Response interceptor - with debugging
 api.interceptors.response.use(
   (response) => {
     return response;
   },
   async (error) => {
-    // For now, just redirect to login on 401 without refresh attempts
+    console.log('API Error:', error.response?.status, error.response?.data);
+    
+    // Only redirect to login on 401 for auth-related endpoints
     if (error.response?.status === 401) {
-      console.log('Unauthorized access, redirecting to login');
-      window.location.href = '/login';
+      console.log('401 Unauthorized - cookies may not be sent properly');
+      
+      // Only redirect if it's a profile or auth endpoint
+      if (error.config?.url?.includes('/api/profile') || error.config?.url?.includes('/api/auth')) {
+        console.log('Redirecting to login due to authentication failure');
+        window.location.href = '/login';
+      }
     }
     
     return Promise.reject(error);
